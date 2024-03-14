@@ -13,6 +13,6 @@ class LaravelOpenExchangeRates extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \Centrex\LaravelOpenExchangeRates\LaravelOpenExchangeRates::class;
+        return \Centrex\LaravelOpenExchangeRates\Client::class;
     }
 }

@@ -61,7 +61,7 @@ class LaravelOpenExchangeRatesServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('laravel-open-exchange-rates', function () {
-            return new LaravelOpenExchangeRates();
+            return new Client();
         });
     }
 }

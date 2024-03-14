@@ -5,10 +5,12 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/centrex/laravel-open-exchange-rates/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/centrex/laravel-open-exchange-rates/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/centrex/laravel-open-exchange-rates?style=flat-square)](https://packagist.org/packages/centrex/laravel-open-exchange-rates)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package provides a simple and convenient interface for working with the Open Exchange Rates service. Currently supports free endpoints.
 
 ## Contents
 
+- [This is my package laravel-open-exchange-rates](#this-is-my-package-laravel-open-exchange-rates)
+  - [Contents](#contents)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Testing](#testing)
@@ -35,27 +37,45 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'app_id' => 'your_own_appid',
+    'default_base_currency' => 'USD'
 ];
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-open-exchange-rates-migrations"
-php artisan migrate
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-open-exchange-rates-views"
 ```
 
 ## Usage
 
+In `config/loer.php`
 ```php
-$laravelOpenExchangeRates = new Centrex\LaravelOpenExchangeRates();
-echo $laravelOpenExchangeRates->echoPhrase('Hello, Centrex!');
+return [
+    'app_id' => '*****************************', // your own api key
+    'default_base_currency' => 'USD'
+];
+```
+In controller (or service) method:
+```php
+use Centrex\LaravelOpenExchangeRates\Client;
+
+class SomeController extends Controller
+{
+    private $client;
+    
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+    
+    public function someAction()
+    {
+        $coefficient = $this->client->latest('USD,RUB,AWG');
+        
+        $historical_coefficent $this->client->historical('2011-03-05', 'USD,RUB,AWG');
+        
+        // e.t.c...
+        
+        // Change in base currencies (not allowed for free account) and requests for the coefficients of all currencies relative to.
+        $coefficient = $this->client->currency('RUB')->latest();
+    }
+}
 ```
 
 ## Testing
