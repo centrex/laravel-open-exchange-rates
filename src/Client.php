@@ -30,9 +30,6 @@ class Client
 
     /**
      * Set base currency.
-     *
-     * @param $currencyCode
-     * @return Client
      */
     public function currency($currencyCode): self
     {
@@ -45,8 +42,7 @@ class Client
      * Limit results to specific currencies (comma-separated list of 3-letter codes).
      * For example: ?symbols=USD,RUB,AWG
      *
-     * @param string $symbols
-     * @return array
+     * @param  string  $symbols
      */
     public function latest($symbols = ''): array
     {
@@ -58,9 +54,8 @@ class Client
     /**
      * The requested date in YYYY-MM-DD format (required).
      *
-     * @param string $date
-     * @param string $symbols
-     * @return array
+     * @param  string  $date
+     * @param  string  $symbols
      */
     public function historical($date, $symbols = ''): array
     {
@@ -72,10 +67,9 @@ class Client
     /**
      * This list will always mirror the currencies available in the latest rates (given as their 3-letter codes).
      *
-     * @param string $showAlternative
-     * @param string $onlyAlternative
-     * @param string $prettyprint
-     * @return array
+     * @param  string  $showAlternative
+     * @param  string  $onlyAlternative
+     * @param  string  $prettyprint
      */
     public function currencies($showAlternative = '0', $onlyAlternative = '0', $prettyprint = '1'): array
     {
@@ -87,8 +81,7 @@ class Client
     /**
      * Get basic plan information and usage statistics for your App ID
      *
-     * @param string $prettyprint
-     * @return array
+     * @param  string  $prettyprint
      */
     public function usage($prettyprint = '1'): array
     {
@@ -100,16 +93,16 @@ class Client
     /**
      * Send request to API
      *
-     * @param string $uri
-     * @return array
+     * @param  string  $uri
+     *
      * @throws OpenExchangeRatesResponseException
      */
     private function sendRequest($uri): array
     {
         $ch = curl_init();
         curl_setopt_array($ch, [
-            CURLOPT_URL => $uri,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_URL            => $uri,
+            CURLOPT_RETURNTRANSFER => true,
         ]);
         $response = json_decode(curl_exec($ch), true);
         curl_close($ch);
