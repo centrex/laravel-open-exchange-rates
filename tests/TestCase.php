@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Centrex\LaravelOpenExchangeRates\Tests;
 
+use Centrex\LaravelOpenExchangeRates\LaravelOpenExchangeRatesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Centrex\LaravelOpenExchangeRates\LaravelOpenExchangeRatesServiceProvider;
 
 class TestCase extends Orchestra
 {
