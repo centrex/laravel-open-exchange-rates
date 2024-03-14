@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace VendorName\Skeleton\Commands;
+namespace Centrex\LaravelOpenExchangeRates\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelOpenExchangeRatesCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-open-exchange-rates';
 
     public $description = 'My command';
 
