@@ -87,7 +87,7 @@ class Client
      */
     public function timeSeries($startDate, $endDate, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'timeseries.json?app_id=%s&start=%s&end=%s&symbols=%s', config('loer.app_id'),  $startDate, $endDate, $symbols);
+        $uri = sprintf(self::BASE_URI . 'timeseries.json?app_id=%s&start=%s&end=%s&symbols=%s', config('loer.app_id'), $startDate, $endDate, $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -101,7 +101,7 @@ class Client
      */
     public function convert($value, $from, $to): array
     {
-        $uri = sprintf(self::BASE_URI . 'convert/%s/%s/%s?app_id=%s',   $value, $from, $to, config('loer.app_id'));
+        $uri = sprintf(self::BASE_URI . 'convert/%s/%s/%s?app_id=%s', $value, $from, $to, config('loer.app_id'));
 
         return $this->sendRequest($uri);
     }
@@ -110,13 +110,13 @@ class Client
      * Get historical Open, High Low, Close (OHLC) and Average exchange rates for a given time period,
      * ranging from 1 month to 1 minute, where available.
      *
-     * @param  string  $startTime , Format: "YYYY-MM-DDThh:mm:00Z".
-     * @param  string  $period, Allowed periods are: 1m, 5m, 15m, 30m, 1h, 12h, 1d, 1w, and 1mo
+     * @param  string  $startTime  , Format: "YYYY-MM-DDThh:mm:00Z".
+     * @param  string  $period,  Allowed periods are: 1m, 5m, 15m, 30m, 1h, 12h, 1d, 1w, and 1mo
      * @param  string  $symbols
      */
     public function ohlc($startTime, $period, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'ohlc.json?app_id=%s&start_time=%s&periods=%s&symbols=%s', config('loer.app_id'),  $startTime, $period, $symbols);
+        $uri = sprintf(self::BASE_URI . 'ohlc.json?app_id=%s&start_time=%s&periods=%s&symbols=%s', config('loer.app_id'), $startTime, $period, $symbols);
 
         return $this->sendRequest($uri);
     }
