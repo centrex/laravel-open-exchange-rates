@@ -14,27 +14,10 @@ class Client
     const BASE_URI = 'https://openexchangerates.org/api/';
 
     /**
-     * The base currency set in the configuration file.
-     *
-     * @var mixed
-     */
-    private $baseCurrency;
-
-    /**
-     * Client constructor.
-     */
-    public function __construct()
-    {
-        $this->baseCurrency = config('loer.default_base_currency');
-    }
-
-    /**
      * Set base currency.
      */
     public function currency($currencyCode): self
     {
-        $this->baseCurrency = $currencyCode;
-
         return $this;
     }
 
@@ -136,11 +119,10 @@ class Client
     /**
      * Send request to API
      *
-     * @param  string  $uri
      *
      * @throws OpenExchangeRatesResponseException
      */
-    private function sendRequest($uri): array
+    private function sendRequest(string $uri): array
     {
         $ch = curl_init();
         curl_setopt_array($ch, [

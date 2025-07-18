@@ -11,7 +11,7 @@ class LaravelOpenExchangeRatesServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
         /*
          * Optional methods to load your package assets
@@ -54,14 +54,12 @@ class LaravelOpenExchangeRatesServiceProvider extends ServiceProvider
     /**
      * Register the application services.
      */
-    public function register()
+    public function register(): void
     {
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'laravel-open-exchange-rates');
 
         // Register the main class to use with the facade
-        $this->app->singleton('laravel-open-exchange-rates', function () {
-            return new Client();
-        });
+        $this->app->singleton('laravel-open-exchange-rates', fn (): Client => new Client());
     }
 }
