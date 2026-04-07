@@ -129,10 +129,20 @@ class Client
             CURLOPT_URL            => $uri,
             CURLOPT_RETURNTRANSFER => true,
         ]);
-        $response = json_decode(curl_exec($ch), true);
+        $result = curl_exec($ch);
+
+        if ($result === false) {
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            throw new OpenExchangeRatesResponseException('cURL request failed: ' . $error);
+        }
+
         curl_close($ch);
 
-        if (isset($response['error']) && $response['error'] == true) {
+        $response = json_decode((string) $result, true);
+
+        if (isset($response['error']) && $response['error'] === true) {
             throw new OpenExchangeRatesResponseException("Status: {$response['status']}, message: {$response['message']}");
         }
 
