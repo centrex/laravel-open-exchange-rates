@@ -111,9 +111,9 @@ class Client
      */
     public function syncLatest(string $symbols = ''): int
     {
-        $response  = $this->latest($symbols);
-        $base      = strtoupper($response['base'] ?? config('laravel-open-exchange-rates.default_base_currency', 'USD'));
-        $rates     = $response['rates'] ?? [];
+        $response = $this->latest($symbols);
+        $base = strtoupper($response['base'] ?? config('laravel-open-exchange-rates.default_base_currency', 'USD'));
+        $rates = $response['rates'] ?? [];
 
         ExchangeRate::upsertRates($rates, $base, now());
 

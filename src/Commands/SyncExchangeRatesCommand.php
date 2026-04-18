@@ -19,7 +19,7 @@ class SyncExchangeRatesCommand extends Command
     public function handle(Client $client): int
     {
         $symbols = (string) $this->option('symbols');
-        $date    = (string) $this->option('date');
+        $date = (string) $this->option('date');
 
         try {
             $response = $date !== ''
@@ -31,8 +31,8 @@ class SyncExchangeRatesCommand extends Command
             return self::FAILURE;
         }
 
-        $base      = strtoupper($response['base'] ?? config('laravel-open-exchange-rates.default_base_currency', 'USD'));
-        $rates     = $response['rates'] ?? [];
+        $base = strtoupper($response['base'] ?? config('laravel-open-exchange-rates.default_base_currency', 'USD'));
+        $rates = $response['rates'] ?? [];
         $fetchedAt = now();
 
         if (empty($rates)) {
