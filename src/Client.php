@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Centrex\LaravelOpenExchangeRates;
 
 use Centrex\LaravelOpenExchangeRates\Exceptions\OpenExchangeRatesResponseException;
+use Centrex\LaravelOpenExchangeRates\Models\ExchangeRate;
 
 class Client
 {
@@ -29,7 +30,7 @@ class Client
      */
     public function latest($symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'latest.json?app_id=%s&symbols=%s', config('loer.app_id'), $symbols);
+        $uri = sprintf(self::BASE_URI . 'latest.json?app_id=%s&symbols=%s', config('laravel-open-exchange-rates.app_id'), $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -42,7 +43,7 @@ class Client
      */
     public function historical($date, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'historical/%s.json?app_id=%s&symbols=%s', $date, config('loer.app_id'), $symbols);
+        $uri = sprintf(self::BASE_URI . 'historical/%s.json?app_id=%s&symbols=%s', $date, config('laravel-open-exchange-rates.app_id'), $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -70,7 +71,7 @@ class Client
      */
     public function timeSeries($startDate, $endDate, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'timeseries.json?app_id=%s&start=%s&end=%s&symbols=%s', config('loer.app_id'), $startDate, $endDate, $symbols);
+        $uri = sprintf(self::BASE_URI . 'timeseries.json?app_id=%s&start=%s&end=%s&symbols=%s', config('laravel-open-exchange-rates.app_id'), $startDate, $endDate, $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -84,7 +85,7 @@ class Client
      */
     public function convert($value, $from, $to): array
     {
-        $uri = sprintf(self::BASE_URI . 'convert/%s/%s/%s?app_id=%s', $value, $from, $to, config('loer.app_id'));
+        $uri = sprintf(self::BASE_URI . 'convert/%s/%s/%s?app_id=%s', $value, $from, $to, config('laravel-open-exchange-rates.app_id'));
 
         return $this->sendRequest($uri);
     }
@@ -99,9 +100,24 @@ class Client
      */
     public function ohlc($startTime, $period, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'ohlc.json?app_id=%s&start_time=%s&periods=%s&symbols=%s', config('loer.app_id'), $startTime, $period, $symbols);
+        $uri = sprintf(self::BASE_URI . 'ohlc.json?app_id=%s&start_time=%s&periods=%s&symbols=%s', config('laravel-open-exchange-rates.app_id'), $startTime, $period, $symbols);
 
         return $this->sendRequest($uri);
+    }
+
+    /**
+     * Fetch latest rates and persist them to the local database.
+     * Returns the number of currencies synced.
+     */
+    public function syncLatest(string $symbols = ''): int
+    {
+        $response  = $this->latest($symbols);
+        $base      = strtoupper($response['base'] ?? config('laravel-open-exchange-rates.default_base_currency', 'USD'));
+        $rates     = $response['rates'] ?? [];
+
+        ExchangeRate::upsertRates($rates, $base, now());
+
+        return count($rates);
     }
 
     /**
@@ -111,7 +127,7 @@ class Client
      */
     public function usage($prettyprint = '1'): array
     {
-        $uri = sprintf(self::BASE_URI . 'usage.json?app_id=%s', config('loer.app_id'));
+        $uri = sprintf(self::BASE_URI . 'usage.json?app_id=%s', config('laravel-open-exchange-rates.app_id'));
 
         return $this->sendRequest($uri);
     }

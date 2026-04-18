@@ -1,9 +1,34 @@
 <?php
 
-/*
- * You can place your custom package configuration in here.
- */
 return [
-    'app_id' => 'your_own_appid',
-    'default_base_currency' => 'USD'
+
+    /*
+    |--------------------------------------------------------------------------
+    | Open Exchange Rates App ID
+    |--------------------------------------------------------------------------
+    */
+    'app_id' => env('OPEN_EXCHANGE_RATES_APP_ID', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Base Currency
+    |--------------------------------------------------------------------------
+    */
+    'default_base_currency' => env('OPEN_EXCHANGE_RATES_BASE', 'USD'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Database Connection
+    |--------------------------------------------------------------------------
+    | Leave null to use the application default connection.
+    */
+    'db_connection' => env('OPEN_EXCHANGE_RATES_DB_CONNECTION'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Table Name
+    |--------------------------------------------------------------------------
+    */
+    'table_name' => env('OPEN_EXCHANGE_RATES_TABLE', 'oer_exchange_rates'),
+
 ];
