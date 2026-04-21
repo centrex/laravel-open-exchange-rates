@@ -18,11 +18,9 @@ class LaravelOpenExchangeRatesServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/config.php' => config_path('laravel-open-exchange-rates.php'),
             ], 'laravel-open-exchange-rates-config');
 
-
             $this->publishes([
-                    __DIR__ . '/../database/migrations/' => database_path('migrations'),
-                ], 'laravel-open-exchange-rates-migrations');
-            
+                __DIR__ . '/../database/migrations/' => database_path('migrations'),
+            ], 'laravel-open-exchange-rates-migrations');
 
             $this->commands([SyncExchangeRatesCommand::class]);
         }
