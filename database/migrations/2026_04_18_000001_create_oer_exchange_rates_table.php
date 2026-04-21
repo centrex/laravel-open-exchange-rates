@@ -8,16 +8,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration
 {
-    public function getConnection(): ?string
-    {
-        return config('laravel-open-exchange-rates.db_connection', config('database.default'));
-    }
-
     public function up(): void
     {
-        $table = config('laravel-open-exchange-rates.table_name', 'oer_exchange_rates');
+        $c = config('laravel-open-exchange-rates.db_connection', config('database.default'));
+        $p = config('laravel-open-exchange-rates.table_prefix', 'oer_');
 
-        Schema::connection($this->getConnection())->create($table, function (Blueprint $table): void {
+        Schema::connection($c)->create($p . 'exchange_rates', function (Blueprint $table): void {
             $table->id();
             $table->string('base', 3)->default('USD');
             $table->string('currency', 3);
@@ -32,8 +28,9 @@ return new class() extends Migration
 
     public function down(): void
     {
-        $table = config('laravel-open-exchange-rates.table_name', 'oer_exchange_rates');
+        $c = config('laravel-open-exchange-rates.db_connection', config('database.default'));
+        $p = config('laravel-open-exchange-rates.table_prefix', 'oer_');
 
-        Schema::connection($this->getConnection())->dropIfExists($table);
+        Schema::connection($c)->dropIfExists($p . 'exchange_rates');
     }
 };

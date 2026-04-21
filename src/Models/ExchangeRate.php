@@ -4,10 +4,18 @@ declare(strict_types = 1);
 
 namespace Centrex\LaravelOpenExchangeRates\Models;
 
+use Centrex\LaravelOpenExchangeRates\Concerns\AddTablePrefix;
 use Illuminate\Database\Eloquent\{Builder, Model};
 
 class ExchangeRate extends Model
 {
+    use AddTablePrefix;
+
+    protected function getTableSuffix(): string
+    {
+        return 'exchange_rates';
+    }
+
     protected $fillable = ['base', 'currency', 'rate', 'fetched_at'];
 
     protected $casts = [

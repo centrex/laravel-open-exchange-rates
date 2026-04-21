@@ -6,6 +6,7 @@ namespace Centrex\LaravelOpenExchangeRates;
 
 use Centrex\LaravelOpenExchangeRates\Exceptions\OpenExchangeRatesResponseException;
 use Centrex\LaravelOpenExchangeRates\Models\ExchangeRate;
+use DateTimeInterface;
 
 class Client
 {
@@ -118,6 +119,32 @@ class Client
         ExchangeRate::upsertRates($rates, $base, now());
 
         return count($rates);
+    }
+
+    /**
+     * Persist a normalized legacy rate payload to the local database.
+     * Returns the number of currencies synced.
+     *
+     * @param  array<string, float|int|string|null>  $rates
+     */
+    public function importRates(array $rates, string $base = 'USD', ?DateTimeInterface $fetchedAt = null): int
+    {
+        $normalizedRates = array_filter(
+            $rates,
+            static fn (mixed $rate): bool => $rate !== null,
+        );
+
+        if ($normalizedRates === []) {
+            return 0;
+        }
+
+        ExchangeRate::upsertRates(
+            $normalizedRates,
+            strtoupper($base),
+            $fetchedAt ?? now(),
+        );
+
+        return count($normalizedRates);
     }
 
     /**

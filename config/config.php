@@ -16,6 +16,15 @@ return [
     */
     'default_base_currency' => env('OPEN_EXCHANGE_RATES_BASE', 'USD'),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currencies to Fetch
+    |--------------------------------------------------------------------------
+    | Comma-separated list of currency codes to fetch. Leave empty to fetch all.
+    */
+    'currencies' => env('OPEN_EXCHANGE_RATES_CURRENCIES', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Database Connection
@@ -26,9 +35,9 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Table Name
+    | Table Name Prefix
     |--------------------------------------------------------------------------
     */
-    'table_name' => env('OPEN_EXCHANGE_RATES_TABLE', 'oer_exchange_rates'),
+    'table_prefix' => env('OPEN_EXCHANGE_RATES_TABLE_PREFIX', 'oer_'),
 
 ];
