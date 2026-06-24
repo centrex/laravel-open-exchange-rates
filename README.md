@@ -1,7 +1,7 @@
 # Laravel Open Exchange Rates
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/centrex/laravel-open-exchange-rates.svg?style=flat-square)](https://packagist.org/packages/centrex/laravel-open-exchange-rates)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/centrex/laravel-open-exchange-rates/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/centrex/laravel-open-exchange-rates/actions?query=workflow%3Arun-tests+branch%3Amain)
+<!-- [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/centrex/laravel-open-exchange-rates/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/centrex/laravel-open-exchange-rates/actions?query=workflow%3Arun-tests+branch%3Amain) -->
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/centrex/laravel-open-exchange-rates/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/centrex/laravel-open-exchange-rates/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/centrex/laravel-open-exchange-rates?style=flat-square)](https://packagist.org/packages/centrex/laravel-open-exchange-rates)
 
