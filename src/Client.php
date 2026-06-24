@@ -31,7 +31,7 @@ class Client
      */
     public function latest($symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'latest.json?app_id=%s&symbols=%s', config('laravel-open-exchange-rates.app_id'), $symbols);
+        $uri = sprintf(self::BASE_URI . 'latest.json?app_id=%s&symbols=%s', $this->requireAppId(), $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -44,7 +44,7 @@ class Client
      */
     public function historical($date, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'historical/%s.json?app_id=%s&symbols=%s', $date, config('laravel-open-exchange-rates.app_id'), $symbols);
+        $uri = sprintf(self::BASE_URI . 'historical/%s.json?app_id=%s&symbols=%s', $date, $this->requireAppId(), $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -72,7 +72,7 @@ class Client
      */
     public function timeSeries($startDate, $endDate, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'timeseries.json?app_id=%s&start=%s&end=%s&symbols=%s', config('laravel-open-exchange-rates.app_id'), $startDate, $endDate, $symbols);
+        $uri = sprintf(self::BASE_URI . 'timeseries.json?app_id=%s&start=%s&end=%s&symbols=%s', $this->requireAppId(), $startDate, $endDate, $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -86,7 +86,7 @@ class Client
      */
     public function convert($value, $from, $to): array
     {
-        $uri = sprintf(self::BASE_URI . 'convert/%s/%s/%s?app_id=%s', $value, $from, $to, config('laravel-open-exchange-rates.app_id'));
+        $uri = sprintf(self::BASE_URI . 'convert/%s/%s/%s?app_id=%s', $value, $from, $to, $this->requireAppId());
 
         return $this->sendRequest($uri);
     }
@@ -101,7 +101,7 @@ class Client
      */
     public function ohlc($startTime, $period, $symbols = ''): array
     {
-        $uri = sprintf(self::BASE_URI . 'ohlc.json?app_id=%s&start_time=%s&periods=%s&symbols=%s', config('laravel-open-exchange-rates.app_id'), $startTime, $period, $symbols);
+        $uri = sprintf(self::BASE_URI . 'ohlc.json?app_id=%s&start_time=%s&periods=%s&symbols=%s', $this->requireAppId(), $startTime, $period, $symbols);
 
         return $this->sendRequest($uri);
     }
@@ -154,9 +154,25 @@ class Client
      */
     public function usage($prettyprint = '1'): array
     {
-        $uri = sprintf(self::BASE_URI . 'usage.json?app_id=%s', config('laravel-open-exchange-rates.app_id'));
+        $uri = sprintf(self::BASE_URI . 'usage.json?app_id=%s', $this->requireAppId());
 
         return $this->sendRequest($uri);
+    }
+
+    /**
+     * @throws OpenExchangeRatesResponseException
+     */
+    private function requireAppId(): string
+    {
+        $appId = (string) config('laravel-open-exchange-rates.app_id', '');
+
+        if ($appId === '') {
+            throw new OpenExchangeRatesResponseException(
+                'Open Exchange Rates app_id is not configured. Set OPEN_EXCHANGE_RATES_APP_ID in your .env file.'
+            );
+        }
+
+        return $appId;
     }
 
     /**
