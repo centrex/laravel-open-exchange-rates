@@ -168,7 +168,7 @@ class Client
 
         if ($appId === '') {
             throw new OpenExchangeRatesResponseException(
-                'Open Exchange Rates app_id is not configured. Set OPEN_EXCHANGE_RATES_APP_ID in your .env file.'
+                'Open Exchange Rates app_id is not configured. Set OPEN_EXCHANGE_RATES_APP_ID in your .env file.',
             );
         }
 
