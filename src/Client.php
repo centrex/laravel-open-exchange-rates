@@ -126,8 +126,9 @@ class Client
      * Returns the number of currencies synced.
      *
      * @param  array<string, float|int|string|null>  $rates
+     * @param  string|null  $date  Effective date (YYYY-MM-DD) the rates apply to; defaults to $fetchedAt's date
      */
-    public function importRates(array $rates, string $base = 'USD', ?DateTimeInterface $fetchedAt = null): int
+    public function importRates(array $rates, string $base = 'USD', ?DateTimeInterface $fetchedAt = null, ?string $date = null): int
     {
         $normalizedRates = array_filter(
             $rates,
@@ -142,6 +143,7 @@ class Client
             $normalizedRates,
             strtoupper($base),
             $fetchedAt ?? now(),
+            $date,
         );
 
         return count($normalizedRates);

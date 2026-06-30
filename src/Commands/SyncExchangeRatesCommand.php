@@ -34,6 +34,7 @@ class SyncExchangeRatesCommand extends Command
         $base = strtoupper($response['base'] ?? config('laravel-open-exchange-rates.default_base_currency', 'USD'));
         $rates = $response['rates'] ?? [];
         $fetchedAt = now();
+        $effectiveDate = $date !== '' ? $date : $fetchedAt->format('Y-m-d');
 
         if (empty($rates)) {
             $this->warn('No rates returned.');
@@ -41,7 +42,7 @@ class SyncExchangeRatesCommand extends Command
             return self::SUCCESS;
         }
 
-        ExchangeRate::upsertRates($rates, $base, $fetchedAt);
+        ExchangeRate::upsertRates($rates, $base, $fetchedAt, $effectiveDate);
 
         $this->info(sprintf('Synced %d exchange rates (base: %s).', count($rates), $base));
 

@@ -14,6 +14,9 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->artisan('migrate', ['--database' => 'testing'])->run();
+
         Factory::guessFactoryNamesUsing(
             fn (string $modelName): string => 'Centrex\\LaravelOpenExchangeRates\\Database\\Factories\\' . class_basename($modelName) . 'Factory',
         );
@@ -29,10 +32,10 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-open-exchange-rates_table.php.stub';
-        $migration->up();
-        */
+        config()->set('database.connections.testing', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
     }
 }

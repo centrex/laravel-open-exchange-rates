@@ -15,13 +15,13 @@ return new class() extends Migration
 
         Schema::connection($c)->create($p . 'exchange_rates', function (Blueprint $table): void {
             $table->id();
+            $table->date('date');
             $table->string('base', 3)->default('USD');
-            $table->string('currency', 3);
-            $table->decimal('rate', 18, 8);
+            $table->longText('rates');
             $table->timestamp('fetched_at');
             $table->timestamps();
 
-            $table->unique(['base', 'currency']);
+            $table->unique(['base', 'date']);
             $table->index('fetched_at');
         });
     }
