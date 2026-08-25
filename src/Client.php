@@ -189,6 +189,12 @@ class Client
         curl_setopt_array($ch, [
             CURLOPT_URL            => $uri,
             CURLOPT_RETURNTRANSFER => true,
+            // Without these, a slow/unreachable API leaves this call to the OS's default
+            // socket timeout (often minutes) — and callers like Inventory::createSaleOrder()
+            // hit this synchronously, mid-DB-transaction, on every order in a non-base
+            // currency. Bound the worst case instead of hanging the request behind it.
+            CURLOPT_CONNECTTIMEOUT => (int) config('laravel-open-exchange-rates.connect_timeout', 3),
+            CURLOPT_TIMEOUT        => (int) config('laravel-open-exchange-rates.timeout', 5),
         ]);
         $result = curl_exec($ch);
 
