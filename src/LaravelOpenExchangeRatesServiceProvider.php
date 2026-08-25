@@ -30,7 +30,7 @@ class LaravelOpenExchangeRatesServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'laravel-open-exchange-rates');
 
-        $this->app->singleton('laravel-open-exchange-rates', fn (): Client => new Client());
+        $this->app->singleton('laravel-open-exchange-rates', fn (): Client => new Client);
         $this->app->alias('laravel-open-exchange-rates', Client::class);
     }
 }
